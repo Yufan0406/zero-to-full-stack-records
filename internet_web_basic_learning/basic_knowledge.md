@@ -30,7 +30,7 @@
 - 机器地址的别名和集合：域名
   - 域名是人类可以记忆的地址，域名可以是IP地址的别名，也可以是IP地址的集合，是我们一般输入进浏览器的内容
   - 域名格式：www.example.com
-  - *URL(Uniform Resource Locator)*：用于在互联网上定位资源的地址，本质上是告诉浏览器去哪台服务器上找什么资源的完整指令。粗浅可以分为：URL = 域名 + 路径 + 查询参数。
+  - **URL(Uniform Resource Locator)**：用于在互联网上定位资源的地址，本质上是告诉浏览器去哪台服务器上找什么资源的完整指令。粗浅可以分为：URL = 域名 + 路径 + 查询参数。
   - 题外话：域名也存在千万，即使方便人们去理解也不方便记忆全部，因此诞生了**搜索引擎**。
 - 域名与IP地址的对应关系维护：DNS(Domain Name System)
   - DNS解析：DNS解析就是将域名转换为IP地址的过程，DNS解析的过程是：域名 → DNS服务器 → IP地址
@@ -46,38 +46,65 @@
 - 获得服务器后会获得：IP地址、登陆用户名以及密码
 - 为了保证能够通过SSH（Secure Shell）远程登陆服务器，需要确认TCP 22端口是否开放，如果开放则可以使用SSH远程登陆服务器
   - SSH是一个远程登陆服务，默认监听在TCP 22端口
-  - 连接方式：在命令行中输入：*ssh username@ip*，输入密码即可
+  - 连接方式：在命令行中输入：`ssh username@ip`，输入密码即可
   - 连接不上则需要检查用户名和密码是否正确，服务器是否在线，22端口是否开放
 
 ### 网页部署
 
 - 为了让服务器提供网页服务，我们需要安装一个软件，能够帮助我们持续监听80端口，当有请求时，能够自动响应并返回内容。此处选用**Nginx**，是目前最流行的Web服务器软件之一。
-- Linux系统安装软件的命令：*sudo apt install app_name*，其中sudo(super user do)意味着超级用户执行（即管理员权限操作，所有用户都会受到此命令影响），apt(Advanced Package Tool)是包管理工具，app_name是软件名称。其中*sudo apt xxx*可用于软件的管理操作。
-  - *sudo apt update*：更新软件包列表，粗浅理解为更新软件商店
-  - *sudo apt install app*：安装或者更新已有软件
-    - 更新前可以通过*apt list --upgradable | grep app*来查看某个软件是否有新版本
-  - *sudo apt remove app*：卸载软件
-  - *xxxxxx -y*：*-y*表示后续相关操作自动确认，无需手动输入
-  - 补充：*systemctl*是Linux系统服务管理工具，用于启动、停止、重启服务
-    - *systemctl status app*：查看服务状态，如果服务正在运行，会显示*active (running)*，如果服务未运行，会显示*inactive (dead)*
+- Linux系统安装软件的命令：`sudo apt install app_name`，其中sudo(super user do)意味着超级用户执行（即管理员权限操作，所有用户都会受到此命令影响），apt(Advanced Package Tool)是包管理工具，app_name是软件名称。其中`sudo apt xxx`可用于软件的管理操作。
+  - `sudo apt update`：更新软件包列表，粗浅理解为更新软件商店
+  - `sudo apt install app`：安装或者更新已有软件
+    - 更新前可以通过`apt list --upgradable | grep app`来查看某个软件是否有新版本
+  - `sudo apt remove app`：卸载软件
+  - `xxxxxx -y`：`-y`表示后续相关操作自动确认，无需手动输入
+  - 补充：`systemctl`是Linux系统服务管理工具，用于启动、停止、重启服务
+    - `systemctl status app`：查看服务状态，如果服务正在运行，会显示`active (running)`，如果服务未运行，会显示`inactive (dead)`
 - 此时浏览器中输入IP地址，会自动访问到服务器上的Nginx服务，Nginx会自动返回一个默认的网页，表示服务器已经成功部署。
   - 未能够正常访问，需要排查服务器是否在线，80端口是否开放，nginx是否正常运行
-    - 未能正常运行可以通过 *(sudo) systemctl start app* 启动服务
+    - 未能正常运行可以通过 `(sudo) systemctl start app` 启动服务
 - 修改默认网页页面，需要先寻找Nginx配置文件路径，通过修改默认配置来实现
   - 首先需要了解Linux目录约定：
-    - */usr/bin*：系统可执行文件目录
-    - */etc*：系统以及各软件的配置文件目录
-    - */var*：系统数据目录
-      - */var/log*：系统日志目录
-      - */var/www*：网站目录
-    - */home*：用户主目录
-  - Nginx配置文件路径：*/etc/nginx*，*/etc/nginx/sites-available/*是Nginx的可用站点配置文件，*/etc/nginx/sites-enabled/*是Nginx的启用站点配置文件
-  - */etc/nginx/sites-available/default*是Nginx的默认站点配置文件，可以通过修改这个文件来实现修改默认网页页面的功能，激进一点可以将其默认网页修改为自己的网页来实现网页部署。
+    - `/usr/bin`：系统可执行文件目录
+    - `/etc`：系统以及各软件的配置文件目录
+    - `/var`：系统数据目录
+      - `/var/log`：系统日志目录
+      - `/var/www`：网站目录
+    - `/home`：用户主目录
+  - Nginx配置文件路径：`/etc/nginx`，`/etc/nginx/sites-available/`是Nginx的可用站点配置文件，`/etc/nginx/sites-enabled/`是Nginx的启用站点配置文件
+    - 前者可理解为草稿、蓝图，后者可理解为生效文件
+    - 后者中的文件中实际上是软链接（类比Win系统中的快捷方式），指向了前者中真正存在的配置文件
+      - 修改前者or后者文件，都是同步修改生效的。启用和停用一个网站仅需要修改、删除以及创建后者中的软链接文件即可。
+    - `/etc/nginx/sites-available/default`是Nginx的默认站点配置文件，可以通过修改这个文件来实现修改默认网页页面的功能，可以将其默认网页修改为自己的网页来实现网页部署。
+
+#### 部署静态网页
+
+本次部署参照工程比较主流的方式，通过git的方式将代码拉取到服务器上，然后通过修改nginx配置文件来实现静态网页的部署。
+
+- 首先需要确认服务器上已经安装了git
+- 通过SSH远程连接（需要提前配置SSH密钥）
+- 从github上克隆仓库、拉取代码
+- 修改nginx配置文件，将默认网页修改为静态网页
+  - `nginx.conf`为核心配置文件，其他文件都是通过include指令被引入进来
+    - 其中`usr`指定了Nginx处理请求的用户身份
+  - 所启用的配置文件在`/etc/nginx/sites-enabled`目录下，通过修改该目录下文件`default`来实现网页部署
+    - 该文件内部核心的模块就是`server`模块，一个模块可被理解为对应一个网站的配置。其中`root`指定了网站的根目录，`index`指定了网站的默认网页文件名，`server_name`指定了请求来源域名，`location`指定了请求路径和对应的处理逻辑，例如如果请求内容无法找到则返回404。当用户通过不同域名访问、发送请求时，Nginx会根据`server_name`选择对应的server模块，然后根据`root`和`index`指定的路径和文件名，返回相应的网页内容。
+  - 因此我们可以通过修改`/etc/nginx/sites-available/default`文件中的`root`和`index`来实现网页部署
+    - 可能会出现404情况，这是因为我们的代码库放在个人用户的家目录，而Nginx的使用用户时www-data用户。Linux系统中**用户间的权限是隔离的**，当www-data用户运行Nginx时，尝试从个人用户的家目录中访问代码库，而个人用户的家目录对www-data用户是不可访问的，因此会出现404情况。
+      - 解决方法：个人用户的家目录开放访问权限`sudo chmod o+x /home/username`
+        - `chmod`：修改文件权限的命令
+        - `o`：表示对其他用户
+        - `+x`：表示添加可执行权限，在目录上则允许个人用户可以访问该目录（在文件上表示个人用户可以执行该文件）；
+      - 延申1：理论上可以将代码库放在/var/www/html目录下，但作为个人用户，在实际操作中每次迭代更新代码库都需要调用root或者www-data用户权限（包括交给GitHub的ssh公钥也需要时www-data的），调用起来麻烦，因此工程上还是多放置于个人用户的家目录中；
+      - 延申2：理论上讲配置文件中`usr`身份改为`root`也能解决权限问题，但这违背了Linux 最小权限原则，一旦网页程序被恶意利用或者Nginx本身出现Bug或者配置不当，高度容易导致服务器沦陷。
+- 修改完成之后我们需要校验语法，可以通过`sudo nginx -t`命令校验语法
+- 如果语法正确，可以通过`sudo systemctl restart nginx`命令重启nginx服务
+- 未来更新的话就只需要调整index.html文件，然后`git push`上传到github，然后通过`git pull`拉取到服务器上，然后重启nginx服务即可。
 
 ### 域名获取
 
 - 为了能够通过域名访问服务器，需要在域名提供商处申请域名，并将域名解析为服务器的IP地址
-  - 域名提供商：如阿里云、腾讯云、GoDaddy等
+  - 域名提供商：如阿里云、腾讯云等
   - 域名解析：域名解析就是将域名转换为IP地址的过程，域名解析的过程是：域名 → DNS服务器 → IP地址
   - 备案：域名解析需要备案，备案需要提供域名所有者的身份证明，以及域名所有者的联系方式，备案完成后，域名解析才能生效
     - 备案会分个人和企业两种，个人备案则只能用于个人用途，无法用于经营

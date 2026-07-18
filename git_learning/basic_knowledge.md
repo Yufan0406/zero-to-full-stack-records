@@ -13,6 +13,7 @@ Git 的基本概念与操作包括仓库(repository)、分支(branch)、提交(c
 - commit：对代码进行手动“存档”，会记录提交时项目中不同文件的状态，以及提交者和提交时间、提交说明等信息。
 
 ## Git 使用入门
+
 更详细的命令学习可以参考[廖雪峰老师Git教程](https://liaoxuefeng.com/books/git/introduction/index.html)
 
 - 首次在本地使用git时需要提前配置用户名和邮箱（方便在多人协作时查看修改提交用户信息）可以通过以下命令进行查询和配置、修改：
@@ -102,3 +103,16 @@ git push -u origin main
 - `git branch -M main`：将本地仓库的默认分支名称强制改为`main`，因为GitHub默认使用`main`作为默认分支名称，如果本地和远程不一致推送时将出现问题。
 - `git push -u origin main`：将本地仓库内容推送到远程仓库，并建立本地`main`分支与远程分支的关联，以后push将默认推送到远程的`main`分支。
 
+- `git clone xxxx`：克隆远程仓库到本地，相当于将远程仓库的内容复制到本地仓库中。本地仓库会自动与远程仓库建立联系，从GitHub所拉取的远程仓库本地会默认命名为`origin`，默认分支名称为`main`，如果本地和远程不一致拉取时将出现问题。
+  - SSH连接拉取方式：`git clone git@github.com:username/repository.git`
+  - HTTPS连接拉取方式：`git clone https://github.com/username/repository.git`，该过程会校验用户名和密码，如果校验失败则无法拉取。
+  - 后续再次拉取代码仅需使用`git pull`即可。
+
+#### GitHub的仓库可见性与连接方式
+
+- GitHub的仓库可见性与连接方式会决定访问git远程仓库时的鉴权(Authentication)操作：验证用户是否拥有访问仓库的权限。
+
+|连接方式/可见性|HTTPS|SSH|
+|---|---|---|
+|公开|不需要鉴权|需要在本机生成SSH密钥并将其加到GitHub账户中，但仅需配置一次|
+|私有|每次push/pull都需要校验账号|类比公开情况|
