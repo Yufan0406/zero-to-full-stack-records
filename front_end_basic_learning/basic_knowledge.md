@@ -285,3 +285,11 @@ Next.js是一个基于React的生产级框架，在整个生产流程上高于Re
 - 类比`npm create vite`，Next.js也提供了`npm create next-app@latest`命令，可以快速创建Next.js项目。
   - `next-app@latest`：表示使用最新版本的Next.js的项目模板。
     - 其默认使用TypeScript语言进行项目构建，同时样式方案选用Tailwind CSS（Tailwind CSS是一个基于CSS的框架，可以快速构建响应式、可定制的用户界面，无需编写复杂的CSS代码）等，适合于AI辅助开发。
+
+#### 部署方式
+
+- Next.js项目构建完成后得到的`.next`项目并非可直接部署的静态文件包，而是一个专为 Node.js 服务器环境优化的、可执行的“服务端应用包”
+  - 其中可能包含了动态渲染逻辑（如服务端渲染、API路由），该逻辑需Node.js环境实时执行。因此出于通用性，Next.js项目构建完成后默认需要`next start`启动服务。**（常态服务：需要服务器中常驻一个不休止的Node进程）**
+  - 但如果项目全是静态页面，可在`next.config.js`中设置`output: 'export'`，这样`build`后可直接用Nginx托管，无需`start`。**（静态导出：直接静态导出一个静态文件包，无需服务器中常驻Node进程）**
+  - 小贴士：`next start`可以通过在`package.json`中设置命令快捷映射来简化启动命令，对应可能为`'start': 'next start'`。
+  - 存在动态内容不代表必须走常态服务渠道，也可以通过 **“静态前端 + 后端API”模式**：先请求页面-服务器Nginx返回HTML、CSS、JS等静态资源-浏览器解析静态资源-用户交互，向后端API发送请求-服务器后端处理并返回响应-浏览器解析响应内容。
