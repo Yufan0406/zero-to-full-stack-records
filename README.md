@@ -1,6 +1,8 @@
 # Zero to Full Stack入门笔记
 
-本仓库主要记录跟随B站up主李勃老师[《【零到全栈】AI时代的全栈开发系列课程》](https://space.bilibili.com/427191943/lists/8088328?type=season)学习中所编写的代码和自己所记录的一些笔记。对于该课程的配套资料和更多信息详见[李勃老师的个人主页](https://xn--ygr25xpohxwz.com/)。
+本仓库主要记录跟随B站up主李勃老师[《【零到全栈】AI时代的全栈开发系列课程》](https://space.bilibili.com/427191943/lists/8088328?type=season)学习中自己所记录的一些笔记。对于该课程的配套资料和更多信息详见[李勃老师的个人主页](https://xn--ygr25xpohxwz.com/)。
+
+跟随该课程所构建的项目代码已上传至仓库[zero-to-tech-project](https://github.com/Yufan0406/zero-to-tech-project.git)以更好管理。
 
 在此特别感谢李勃老师的辛勤付出和无私分享！
 

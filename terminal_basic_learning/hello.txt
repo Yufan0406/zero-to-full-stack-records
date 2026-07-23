@@ -1,3 +1,0 @@
-hello, world!
-This is a test file.
-We make 3 changes in this file.
